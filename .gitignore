@@ -1,0 +1,10 @@
+.DS_Store
+ref_GVHMR/
+__pycache__/
+# private / not for publishing (screen recording shows account e-mail and other windows)
+assets/recording/
+assets/frames/share_link_enabled.jpg
+assets/my_dance_video_input.mp4
+# kept local only (build tooling, raw assets)
+assets/
+build/

@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GVHMR on Colab</title>
+<style>
+  @page { size: A4; margin: 16mm 15mm 16mm 15mm; }
+  :root { --ink:#1b1f24; --muted:#5b6470; --accent:#e8890c; --line:#e3e6ea; --soft:#f6f7f9; --ok:#1f8a4c; }
+  * { box-sizing: border-box; }
+  body { font-family: -apple-system, "Helvetica Neue", Helvetica, Arial, sans-serif; color: var(--ink); font-size: 10.6pt; line-height: 1.5; margin: 0; }
+  h1 { font-size: 24pt; margin: 0 0 4px; letter-spacing: -0.3px; }
+  h2 { font-size: 15pt; margin: 26px 0 8px; padding-bottom: 5px; border-bottom: 2px solid var(--accent); break-after: avoid; }
+  h3 { font-size: 12pt; margin: 18px 0 6px; break-after: avoid; }
+  p { margin: 6px 0; }
+  .sub { color: var(--muted); font-size: 11.5pt; margin-bottom: 14px; }
+  .cover { border-left: 6px solid var(--accent); padding: 4px 0 4px 16px; margin: 4px 0 18px; }
+  .box { background: var(--soft); border: 1px solid var(--line); border-radius: 8px; padding: 10px 14px; margin: 10px 0; break-inside: avoid; }
+  .box.ok { border-left: 5px solid var(--ok); }
+  .box.tip { border-left: 5px solid var(--accent); }
+  .step { display: grid; grid-template-columns: 34px 1fr; gap: 10px; margin: 14px 0 6px; break-inside: avoid; }
+  .num { width: 30px; height: 30px; border-radius: 50%; background: var(--accent); color: #fff; font-weight: 700; display: flex; align-items: center; justify-content: center; font-size: 13pt; }
+  .step h3 { margin: 3px 0 4px; }
+  img.shot { width: 100%; border: 1px solid var(--line); border-radius: 6px; margin: 6px 0 2px; display: block; }
+  .cap { color: var(--muted); font-size: 9pt; margin-bottom: 8px; }
+  table { border-collapse: collapse; width: 100%; margin: 8px 0; font-size: 9.6pt; break-inside: auto; }
+  th, td { border: 1px solid var(--line); padding: 6px 8px; text-align: left; vertical-align: top; }
+  th { background: var(--soft); }
+  tr { break-inside: avoid; }
+  code { font-family: Menlo, Consolas, monospace; font-size: 9pt; background: #f1f2f4; padding: 1px 4px; border-radius: 4px; }
+  .kbd { font-weight: 600; }
+  ul { margin: 4px 0 6px 18px; padding: 0; }
+  li { margin: 2px 0; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .pb { break-before: page; }
+  .small { font-size: 9pt; color: var(--muted); }
+  @media screen {
+    html { background: #eef0f3; }
+    body { max-width: 860px; margin: 24px auto; padding: 36px 44px; background: #fff; border-radius: 10px;
+           box-shadow: 0 2px 18px rgba(0,0,0,.08); }
+  }
+  @media screen and (max-width: 600px) {
+    body { margin: 0; padding: 16px; border-radius: 0; }
+    .two { grid-template-columns: 1fr; }
+  }
+  a { color: #b5650a; }
+  .actions { display: flex; gap: 10px; flex-wrap: wrap; margin: 14px 0 6px; }
+  .btn { display: inline-block; padding: 9px 16px; border-radius: 8px; border: 1px solid var(--line); color: var(--ink); text-decoration: none; font-weight: 600; }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  video.vid { width: 100%; border-radius: 8px; background: #000; display: block; margin-top: 6px; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>GVHMR on Google Colab</h1>
+  <div class="sub">Fixed &amp; working, step-by-step guide · October 2026</div>
+</div>
+
+<div class="box ok">
+  <b>Result:</b> GVHMR runs again on Google Colab (free T4 GPU), tested end to end on the official tennis example and on a custom uploaded MP4.
+  You don't need any coding: open the notebook, press <span class="kbd">Run all</span>, add your video, download the results.
+</div>
+
+<div class="actions">
+  <a class="btn primary" href="https://colab.research.google.com/drive/1602LWS17navgdCqaXTpAyainJKZbYKLd">Open the notebook in Colab</a>
+  <a class="btn" href="GVHMR_Colab_Fixed.ipynb" download>Download the .ipynb</a>
+</div>
+
+<h3>Watch the walkthrough (4 min)</h3>
+<video class="vid" controls preload="metadata" poster="img/video_poster.jpg" src="GVHMR_Colab_Walkthrough.mp4"></video>
+<div class="cap">A real run on a free Colab T4: opening the notebook, Run all, adding your own video, and the results.</div>
+
+<h3>Sample results from the test run</h3>
+<div class="two">
+  <div><video class="vid" controls muted loop playsinline preload="metadata" src="samples/sample_tennis_side_by_side.mp4"></video><div class="cap">Official tennis example (static camera)</div></div>
+  <div><video class="vid" controls muted loop playsinline preload="metadata" src="samples/sample_dance_side_by_side.mp4"></video><div class="cap">Uploaded dance clip. Left: camera view · right: 3D world view</div></div>
+</div>
+
+
+<h2>Quick start (about 10 minutes)</h2>
+
+<div class="step"><div class="num">1</div><div>
+  <h3>Open the notebook</h3>
+  <p><b>Option A, the link:</b> open <a href="https://colab.research.google.com/drive/1602LWS17navgdCqaXTpAyainJKZbYKLd">colab.research.google.com/drive/1602LWS17navgdCqaXTpAyainJKZbYKLd</a>, then click <span class="kbd">File ▸ Save a copy in Drive</span>, so you have your own copy to run and edit.</p>
+  <p><b>Option B, the file:</b> go to <code>colab.research.google.com</code> ▸ <span class="kbd">Upload notebook</span> (or <span class="kbd">File ▸ Upload notebook</span>) ▸ choose <code>GVHMR_Colab_Fixed.ipynb</code>.</p>
+  <img class="shot" src="img/s01_notebook.jpg">
+  <div class="cap">The notebook: a short explanation at the top, then Steps 1–6. The table of contents on the left lets you jump between steps.</div>
+</div></div>
+
+<div class="step"><div class="num">2</div><div>
+  <h3>Select the free GPU</h3>
+  <p>Menu <span class="kbd">Runtime ▸ Change runtime type</span> ▸ select <span class="kbd">T4 GPU</span> ▸ <span class="kbd">Save</span>. (The notebook is already set to T4, so this is just a check.)</p>
+  <img class="shot" src="img/s02_runtime.jpg">
+</div></div>
+
+<div class="step"><div class="num">3</div><div>
+  <h3>Press "Run all"</h3>
+  <p>Menu <span class="kbd">Runtime ▸ Run all</span>. If Colab shows <i>"Warning: This notebook was not authored by Google"</i>, click <span class="kbd">Run anyway</span>. That's normal for any notebook you get from someone else.</p>
+  <img class="shot" src="img/s03_runall.jpg">
+  <p>Steps 1–4 now run by themselves (≈ 8–10 min on the free T4):</p>
+  <ul>
+    <li><b>Step 1</b> checks the GPU: <i>✅ GPU found: Tesla T4</i>.</li>
+    <li><b>Step 2</b> installs GVHMR in its own Python 3.10 environment (≈ 2–3 min). The "… still working" lines are normal.</li>
+    <li><b>Step 3</b> downloads the models (≈ 5.8 GB, under 1 min).</li>
+    <li><b>Step 4</b> runs GVHMR on the official tennis example. When the tennis result video plays, everything works.</li>
+  </ul>
+  <img class="shot" src="img/s04_install.jpg">
+  <div class="cap">Steps 2 and 3 are done (installation + model downloads), and Step 4 is processing the tennis example. Progress bars show each stage.</div>
+</div></div>
+
+<div class="step pb"><div class="num">4</div><div>
+  <h3>Run GVHMR on your own video (Step 5)</h3>
+  <p>You can add your video in two easy ways:</p>
+  <div class="two">
+    <div class="box"><b>A · Upload button</b> (default)<br>Leave <code>video_source</code> on <i>"Upload from my computer"</i>. When Step 5 runs, a <span class="kbd">Choose files</span> button appears under the cell. Click it and pick your MP4.</div>
+    <div class="box"><b>B · Files panel</b> (best for big files)<br>Click the 📁 folder icon on the left and drag your video into the panel (or use its upload icon). Wait until the upload circle is done, then set <code>video_source</code> to <i>"Files panel (drag &amp; drop)"</i>.</div>
+  </div>
+  <img class="shot" src="img/s05_files.jpg">
+  <div class="cap">Option B: the video (<code>my_dance_video.mp4</code>) uploaded to the Files panel and selected in the Step 5 form.</div>
+  <p><b>camera_is_static:</b> tick it if the camera was on a tripod / not moving (faster, more accurate). Leave it unticked for hand-held or moving phone videos; GVHMR then estimates the camera motion.</p>
+  <p>Then press ▶ on the Step 5 cell (or it runs automatically as part of <b>Run all</b>). A 10-second clip takes about 3–4 minutes on the free T4.</p>
+  <div class="box tip">Colab runs each cell with the settings it had <b>when you pressed Run all</b>. If you change the Step 5 form afterwards, press ▶ on Step 5 again. (To cancel a pending upload, click <span class="kbd">Cancel upload</span>.)</div>
+  <img class="shot" src="img/s06_result.jpg">
+  <div class="cap">The result: left, the 3D body drawn over your video (camera view); right, the same motion in a 3D world with a ground plane.</div>
+</div></div>
+
+<div class="step"><div class="num">5</div><div>
+  <h3>Download your results (Step 6)</h3>
+  <p>Press ▶ on Step 6. A <code>GVHMR_&lt;name&gt;.zip</code> file downloads. Tick <code>also_save_to_google_drive</code> to keep a copy in <i>My Drive ▸ GVHMR_results</i>.</p>
+  <table>
+    <tr><th style="width:38%">File in the zip</th><th>What it is</th></tr>
+    <tr><td><code>&lt;name&gt;_side_by_side.mp4</code></td><td>Camera view + 3D world view side by side</td></tr>
+    <tr><td><code>&lt;name&gt;_incam.mp4</code></td><td>3D body drawn on top of your video</td></tr>
+    <tr><td><code>&lt;name&gt;_global.mp4</code></td><td>The motion in a 3D world with a ground plane</td></tr>
+    <tr><td><code>&lt;name&gt;_smplx_params.npz</code></td><td>The 3D motion as numbers (SMPL-X pose, shape, rotation, translation per frame at 30 FPS). Use it in Blender, Unity or your own code</td></tr>
+    <tr><td><code>&lt;name&gt;_hmr4d_results.pt</code></td><td>GVHMR's raw output (PyTorch)</td></tr>
+    <tr><td><code>&lt;name&gt;_log.txt</code></td><td>Full processing log</td></tr>
+  </table>
+</div></div>
+
+<div class="box tip"><b>Each new Colab session starts empty.</b> When you come back another day, run all the steps again (Run all). Colab deletes the machine after a session ends (≈ 90 min idle, 12 h max on the free tier). Save results to Google Drive if you want to keep them.</div>
+
+<h2 class="pb">What was broken, and how I fixed it</h2>
+<p>The official notebook (and <code>pip install -r requirements.txt</code>) fails on today's Colab. I reproduced the failure on a fresh Colab machine:</p>
+<div class="box"><code>ERROR: pytorch3d-0.7.6-cp310-cp310-linux_x86_64.whl is not a supported wheel on this platform.</code><br>
+<code>ERROR: No matching distribution found for torch==2.3.0+cu121</code><br>
+<code>ModuleNotFoundError: No module named 'pytorch_lightning'</code></div>
+
+<table>
+  <tr><th style="width:4%">#</th><th style="width:46%">Problem</th><th>Fix</th></tr>
+  <tr><td>1</td><td><b>Colab moved to Python 3.13</b> (Ubuntu 24.04). GVHMR was built for Python 3.10: its pinned <code>torch 2.3.0</code>, <code>numpy 1.23.5</code> and the <code>pytorch3d</code> wheel don't exist for Python 3.13, so <b>nothing gets installed</b>.</td><td>The notebook creates a separate <b>Python 3.10 environment</b> (with <code>uv</code>) and runs GVHMR with it. Colab's own Python is left alone, so no "restart session" prompts.</td></tr>
+  <tr><td>2</td><td><b><code>chumpy</code> can't be installed</b> by modern pip/uv: its <code>setup.py</code> imports <code>pip</code> and uses <code>distutils</code>. chumpy is required to read the SMPL body model.</td><td>Installed with <code>--no-build-isolation</code> inside the Python 3.10 environment.</td></tr>
+  <tr><td>3</td><td><b>Unpinned packages drifted.</b> <code>setuptools&gt;=68</code> now installs v84, which removed <code>pkg_resources</code>, so <code>import pytorch_lightning</code> crashes (Lightning 2.3 needs it). Other packages (pycolmap, opencv, …) are unpinned too.</td><td>All 119 packages pinned to versions that work together (e.g. <code>setuptools 80.9</code>, <code>pycolmap 3.11.1</code>, <code>pytorch-lightning 2.3.0</code>). GVHMR's code is pinned to commit <code>ee960bb</code>, so future GitHub changes can't break the notebook.</td></tr>
+  <tr><td>4</td><td><b>Colab's environment leaks in</b>: <code>PYTHONPATH</code> points to Colab's Python 3.13 packages, and <code>MPLBACKEND</code> to a plotting backend that doesn't exist in the 3.10 environment.</td><td>GVHMR runs with a clean environment (no <code>PYTHONPATH</code>, <code>MPLBACKEND=Agg</code>, only the GPU driver library path).</td></tr>
+  <tr><td>5</td><td><b>Custom videos were hard</b>: only a Google Drive share link was supported. File names with spaces/brackets break GVHMR's config. 60 FPS phone videos were processed as 30 FPS (wrong speed), and 4K videos run out of memory.</td><td>Upload button, Files-panel drag &amp; drop, Drive path or share link. Names are cleaned automatically. Videos are converted to 30 FPS (what GVHMR expects), phone rotation is applied, resolution is capped at 1920 px, and you can process just part of a video.</td></tr>
+  <tr><td>6</td><td>Re-running a video silently reused old cached results.</td><td>Each run starts fresh.</td></tr>
+  <tr><td>7</td><td>Large result videos embedded in the notebook could freeze the browser. No easy way to export the 3D motion.</td><td>Light preview in the notebook, plus one-click zip download (videos + <code>.npz</code> motion data), optional Google Drive copy and clear error messages.</td></tr>
+</table>
+
+<h2>Tips &amp; troubleshooting</h2>
+<table>
+  <tr><th style="width:36%">Situation</th><th>What to do</th></tr>
+  <tr><td>"No GPU found"</td><td>Runtime ▸ Change runtime type ▸ <b>T4 GPU</b> ▸ Save, then Runtime ▸ Run all.</td></tr>
+  <tr><td>"Cannot connect to GPU backend"</td><td>The free daily GPU quota is used up. Try again later (usually a few hours), or use Colab Pro.</td></tr>
+  <tr><td>Out of memory</td><td>In Step 5 set <code>duration_seconds</code> (e.g. 30) or <code>max_resolution = 1280</code>.</td></tr>
+  <tr><td>No person detected / wrong person</td><td>GVHMR follows one person: the one who is biggest and visible the longest. Trim or crop the video so that person dominates.</td></tr>
+  <tr><td>Best quality</td><td>Whole body visible, person not tiny in the frame, good light. Tick <code>camera_is_static</code> only for tripod shots.</td></tr>
+  <tr><td>Do I need Colab Pro?</td><td>No. The free T4 works (as shown in the video). Pro gives faster GPUs (L4/A100), longer sessions and more GPU time per day.</td></tr>
+  <tr><td>How long does it take?</td><td>Setup ≈ 8–10 min per session. Then roughly 3–4 min for a 10 s clip and 10–15 min for a 60 s clip on the free T4.</td></tr>
+</table>
+
+<h2>Licenses</h2>
+<p class="small">GVHMR is free for non-commercial research and education (see its LICENSE); commercial use requires permission from the authors (Zhejiang University). The SMPL / SMPL-X body models are also non-commercial and require registration at smpl.is.tue.mpg.de and smpl-x.is.tue.mpg.de. The notebook downloads the model files from the same Hugging Face mirror the official GVHMR Colab uses.</p>
+
+</body>
+</html>
